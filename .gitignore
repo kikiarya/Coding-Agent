@@ -1,0 +1,69 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+.venv.broken-*/
+venv/
+env/
+
+# Secrets / local config
+.env
+.env.*
+*.key
+*.pem
+
+# Build
+build/
+dist/
+web/node_modules/
+*.tsbuildinfo
+
+# Experiment outputs
+artifacts/
+checkpoints/
+outputs/
+runs/
+logs/
+wandb/
+
+# Product evaluation outputs (keep directory contracts and README tracked)
+/evals/results/**/*.json
+/evals/reports/*.json
+/evals/failure_cases/**/*.json
+
+# Generated data / cache
+data/generated/
+data/cache/
+
+# Model weights
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.bin
+
+# IDE
+.vscode/
+.idea/
+
+# Local working notes
+/*.md
+!/README.md
+!/CONTRIBUTING.md
+!/SECURITY.md
+!/CHANGELOG.md
+docs
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs / temp
+*.log
+*.tmp

@@ -1,0 +1,36 @@
+%%{init: {"theme":"base","htmlLabels":true,"themeCSS":"foreignObject { overflow: visible; }","themeVariables":{"fontFamily":"Arial, sans-serif","fontSize":"16px","primaryColor":"#e3e7ed","primaryTextColor":"#424b59","primaryBorderColor":"#9aa5b5","lineColor":"#8b8991","secondaryColor":"#eee5e3","tertiaryColor":"#f3f0eb","clusterBkg":"#faf8f5","clusterBorder":"#d3cec7","edgeLabelBackground":"#faf8f5"},"flowchart":{"curve":"basis","nodeSpacing":35,"rankSpacing":40,"htmlLabels":true}}}%%
+flowchart TB
+    Input["Issue / Repository / Base Commit"] --> Entry["CLI / Web Run Manager<br/>任务工作区 · 运行配置"]
+    subgraph Execution["01 · 双层策略执行"]
+        Harness["Harness Policy<br/>工具可见性 · 上下文 · 验证约束"] --> Model["Model Policy<br/>根据代码与反馈选择动作"]
+        Model --> Guard["Action Guard<br/>参数 · 权限 · 读取版本校验"]
+        Guard -->|校验通过| Tools["Tool Runtime<br/>搜索 · 读取 · 补丁 · 测试 · Diff"]
+        Tools --> Feedback["Observation<br/>工具结果 · 版本 · 测试状态"]
+        Feedback --> Runner["Agent Runner<br/>下一步 · 预算 · 取消控制"]
+        Runner -->|继续| Harness
+    end
+    Entry --> Harness
+    Guard -->|finish| Output["结束条件检查<br/>Final Patch / Run Report"]
+    subgraph Recovery["02 · 状态、证据与候选恢复"]
+        Evidence["状态与验证证据<br/>状态分离 · 版本绑定 · 失效标记"] --> Candidate["有界候选<br/>current / best_observed / backup"]
+        Candidate --> Decision["恢复决策<br/>重读 · 重测 · 受控候选切换"]
+    end
+    Feedback --> Evidence
+    Guard -->|冲突 / 拒绝| Decision
+    Decision --> Harness
+    subgraph Records["03 · 记录、续跑与数据"]
+        Trace["Trace / Checkpoint<br/>状态指纹 · Diff · 测试记录"] --> Resume["Resume / Replay<br/>校验工作区一致性<br/>通过后续跑 / 不一致则拒绝"]
+        Trace --> Data["数据审核与后训练<br/>SFT / RFT / GRPO"]
+        Data --> Eval["冻结模型与 Harness<br/>配对评测 · 组件消融"]
+    end
+    Runner --> Trace
+    classDef blue fill:#e3e7ed,stroke:#9aa5b5,color:#424b59;
+    classDef rose fill:#eee1e0,stroke:#b7a0a1,color:#574b51;
+    classDef sand fill:#ede7dd,stroke:#b8ad9b,color:#555049;
+    classDef dark fill:#586477,stroke:#586477,color:#ffffff;
+    class Input,Output dark;
+    class Harness,Model,Guard,Tools,Feedback,Runner blue;
+    class Evidence,Candidate,Decision rose;
+    class Entry,Trace,Resume,Data,Eval sand;
+    style Recovery fill:#faf5f4,stroke:#d0bcbb
+    style Records fill:#f6f3ed,stroke:#d3c9bb

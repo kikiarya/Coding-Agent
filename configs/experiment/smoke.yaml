@@ -1,0 +1,28 @@
+schema_version: "2.0.0"
+run:
+  seed: 42
+  artifacts_dir: artifacts
+model:
+  model_id: scripted-smoke-policy
+  model_revision: local
+  adapter_id: null
+  prompt_version: agent_prompt_v1
+harness:
+  harness_version: harness_v1
+  max_tool_steps: 30
+  max_test_calls: 8
+  max_total_tokens: 65536
+  max_context_tokens: 16384
+  max_decision_output_tokens: 1024
+  tool_timeout_seconds: 600
+  task_timeout_seconds: 1800
+repository:
+  test_command:
+    - "{python}"
+    - -m
+    - unittest
+  default_test_args:
+    - discover
+    - -s
+    - tests
+

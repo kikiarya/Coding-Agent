@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coding-agent-policy.local/schemas/decision_sample.schema.json",
+  "title": "DecisionSample",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "sample_id", "source_run_id", "source_episode_id",
+    "source_step_index", "task_id", "split", "repo_id", "dataset",
+    "category", "messages", "target", "rejected_action",
+    "error_labels", "correction_method", "sandbox_validated", "review_status",
+    "provenance_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0.0"},
+    "sample_id": {"type": "string", "minLength": 1},
+    "source_run_id": {"type": "string", "minLength": 1},
+    "source_episode_id": {"type": "string", "minLength": 1},
+    "source_step_index": {"type": "integer", "minimum": 0},
+    "task_id": {"type": "string", "minLength": 1},
+    "split": {"enum": ["smoke", "train", "dev", "test", "external"]},
+    "repo_id": {"type": "string", "minLength": 1},
+    "dataset": {"enum": ["D_success", "D_policy"]},
+    "category": {"enum": ["planning_tool", "verification", "recovery", "termination_efficiency"]},
+    "messages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["role", "content"],
+        "properties": {
+          "role": {"enum": ["system", "user", "assistant", "tool"]},
+          "content": {"type": "string"}
+        }
+      }
+    },
+    "target": {"type": "object"},
+    "rejected_action": {"type": ["object", "null"]},
+    "error_labels": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "WRONG_FILE", "WRONG_SEARCH", "WRONG_PATCH", "WRONG_TEST",
+          "PREMATURE_STOP", "DUPLICATE_ACTION", "OTHER"
+        ]
+      }
+    },
+    "correction_method": {"enum": ["natural_success", "recovery_success", "controlled_perturbation_repair", "manual_repair"]},
+    "sandbox_validated": {"type": "boolean"},
+    "review_status": {"enum": ["pending", "accepted", "rejected"]},
+    "provenance_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coding-agent-policy.local/schemas/checkpoint_candidate.schema.json",
+  "title": "CheckpointCandidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "epoch", "checkpoint_path", "evaluation_report"],
+  "properties": {
+    "schema_version": {"const": "2.0.0"},
+    "epoch": {"type": "integer", "minimum": 1},
+    "checkpoint_path": {"type": "string", "minLength": 1},
+    "evaluation_report": {"type": "string", "minLength": 1}
+  }
+}

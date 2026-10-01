@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coding-agent-policy.local/schemas/corrected_replay.schema.json",
+  "title": "CorrectedSampleReplay",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "sample_id", "provenance_hash", "source_run_id",
+    "source_episode_id", "source_step_index", "task_id", "state_hash_expected",
+    "state_hash_actual", "replayed_prior_actions", "target_action_hash",
+    "target_tool", "target_ok", "state_changed", "evaluator_checked",
+    "evaluator_resolved", "cleanup_ok", "passed", "error"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0.0"},
+    "sample_id": {"type": "string", "minLength": 1},
+    "provenance_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "source_run_id": {"type": "string", "minLength": 1},
+    "source_episode_id": {"type": "string", "minLength": 1},
+    "source_step_index": {"type": "integer", "minimum": 0},
+    "task_id": {"type": "string", "minLength": 1},
+    "state_hash_expected": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "state_hash_actual": {"type": ["string", "null"], "pattern": "^sha256:[0-9a-f]{64}$"},
+    "replayed_prior_actions": {"type": "integer", "minimum": 0},
+    "target_action_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "target_tool": {"enum": ["search_code", "read_file", "apply_patch", "run_tests", "inspect_diff", "finish"]},
+    "target_ok": {"type": "boolean"},
+    "state_changed": {"type": "boolean"},
+    "evaluator_checked": {"type": "boolean"},
+    "evaluator_resolved": {"type": ["boolean", "null"]},
+    "cleanup_ok": {"type": "boolean"},
+    "passed": {"type": "boolean"},
+    "error": {"type": ["string", "null"]}
+  }
+}

@@ -1,0 +1,27 @@
+schema_version: "2.0.0"
+profile: swesmith_wsl_v1
+status: retired_local_path
+wsl:
+  distro: Ubuntu
+  minimum_python: "3.10"
+  require_wsl2: true
+docker:
+  require_linux_engine: true
+  require_distro_integration: true
+storage:
+  docker_data_root: "D:\\DockerDesktopDataV2"
+  dependencies_root: "D:\\CodingAgentPolicyOptimizationDependencies"
+  minimum_free_gib: 200
+source:
+  repository: https://github.com/SWE-bench/SWE-smith.git
+  repository_revision: 9b74ac08118a85c39c356802f7961893af73e07f
+  dataset_id: SWE-bench/SWE-smith
+  dataset_revision: ea6d7173829c7ec8fa16c22055699ff2e9188091
+selection:
+  hash_seed: 42
+  max_tasks_per_repository: 10
+  counts:
+    smoke: 20
+    train: 100
+    dev: 20
+    test: 40

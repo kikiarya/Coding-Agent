@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coding-agent-policy.local/schemas/review_queue.schema.json",
+  "title": "ReviewQueueEntry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "sample_id", "provenance_hash", "review_status"],
+  "properties": {
+    "schema_version": {"const": "2.0.0"},
+    "sample_id": {"type": "string", "minLength": 1},
+    "provenance_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "review_status": {"enum": ["pending", "accepted", "rejected"]}
+  }
+}

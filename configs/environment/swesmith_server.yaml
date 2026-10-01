@@ -1,0 +1,28 @@
+schema_version: "2.0.0"
+profile: swesmith_linux_server_v1
+status: configured
+server:
+  minimum_python: "3.10"
+  require_native_linux: true
+docker:
+  require_linux_engine: true
+  require_distro_integration: false
+storage:
+  runtime_root_env: CAPO_RUNTIME_ROOT
+  minimum_free_gib: 200
+hardware:
+  require_cuda: true
+  minimum_gpu_memory_gib: 24
+source:
+  repository: https://github.com/SWE-bench/SWE-smith.git
+  repository_revision: 9b74ac08118a85c39c356802f7961893af73e07f
+  dataset_id: SWE-bench/SWE-smith
+  dataset_revision: ea6d7173829c7ec8fa16c22055699ff2e9188091
+selection:
+  hash_seed: 42
+  max_tasks_per_repository: 10
+  counts:
+    smoke: 20
+    train: 100
+    dev: 20
+    test: 40

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coding-agent-policy.local/schemas/rl_gate_evidence.schema.json",
+  "title": "RLGateEvidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "sft_gate_report", "policy_checkpoint",
+    "policy_checkpoint_frozen", "gpu_memory_gb", "smoke_tasks_completed",
+    "smoke_oom_count", "smoke_gradient_anomaly_count", "audit_trajectories",
+    "reward_hacking_findings", "reward_component_logs", "kl_loss_logs",
+    "chat_template_preflight_report", "smoke_state_isolation_passed",
+    "loss_logs", "invalid_action_logs", "episode_length_logs",
+    "same_harness_and_budget"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0.0"},
+    "sft_gate_report": {"type": "string", "minLength": 1},
+    "policy_checkpoint": {"type": "string", "minLength": 1},
+    "policy_checkpoint_frozen": {"type": "boolean"},
+    "chat_template_preflight_report": {"type": "string", "minLength": 1},
+    "gpu_memory_gb": {"type": "number", "minimum": 0},
+    "smoke_tasks_completed": {"type": "integer", "minimum": 0},
+    "smoke_oom_count": {"type": "integer", "minimum": 0},
+    "smoke_gradient_anomaly_count": {"type": "integer", "minimum": 0},
+    "smoke_state_isolation_passed": {"type": "boolean"},
+    "audit_trajectories": {"type": "integer", "minimum": 0},
+    "reward_hacking_findings": {"type": "integer", "minimum": 0},
+    "reward_component_logs": {"type": "boolean"},
+    "kl_loss_logs": {"type": "boolean"},
+    "loss_logs": {"type": "boolean"},
+    "invalid_action_logs": {"type": "boolean"},
+    "episode_length_logs": {"type": "boolean"},
+    "same_harness_and_budget": {"type": "boolean"}
+  }
+}

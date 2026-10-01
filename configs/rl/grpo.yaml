@@ -1,0 +1,54 @@
+schema_version: "2.0.0"
+profile: conditional_agentic_grpo_v1
+status: gated
+trainer:
+  implementation: TRL_GRPOTrainer_environment_factory
+  repository: https://github.com/huggingface/trl.git
+  revision: e17a8ae6f10945c2f7a3d31e0267ec05f29d6f20
+  minimum_transformers: "5.2.0"
+  vllm_mode: colocate
+  vllm_enable_sleep_mode: true
+  initialization: policy_sft
+  peft: qlora
+  num_generations: 4
+  max_tool_calling_iterations: 12
+  per_device_batch_size: 1
+  gradient_accumulation_steps: 8
+  learning_rate: 0.000005
+  kl_beta: 0.001
+  seed: 42
+profiles:
+  smoke:
+    stable_train_tasks: 8
+    update_steps: 50
+  formal:
+    stable_train_tasks: 64
+    update_steps: 500
+    eval_every_steps: 50
+    stop_after_evals_without_improvement: 3
+    maximum_invalid_action_rate: 0.05
+    maximum_resolve_drop: 0.05
+environment:
+  max_tool_steps: 30
+  max_test_calls: 8
+  independent_environment_per_rollout: true
+harness_policy:
+  variant: adaptive_v1
+  history_limit: 8
+  verification_mode: required
+  recovery_mode: required
+reward:
+  success: 1.0
+  progress: 0.2
+  verification: 0.05
+  duplicate: -0.05
+  normalized_steps: -0.05
+  recovery_ablation: 0.05
+  recovery_ablation_enabled: false
+gate:
+  minimum_gpu_memory_gb: 80
+  smoke_tasks: 8
+  audit_trajectories: 20
+  require_sft_gate: true
+  require_frozen_policy_checkpoint: true
+  require_chat_template_preflight: true

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coding-agent-policy.local/schemas/step_record.schema.json",
+  "title": "StepRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "run_id", "episode_id", "task_id", "split",
+    "repo_id", "base_commit", "step_index", "model_id", "model_revision",
+    "adapter_id", "prompt_version", "harness_version", "experiment_config_hash",
+    "state_hash_before", "intent", "action", "normalized_action_hash",
+    "tool_result", "state_hash_after", "diff_hash", "test_state",
+    "input_tokens", "output_tokens", "latency_ms", "automatic_labels"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0.0"},
+    "run_id": {"type": "string", "minLength": 1},
+    "episode_id": {"type": "string", "minLength": 1},
+    "task_id": {"type": "string", "minLength": 1},
+    "split": {"enum": ["smoke", "train", "dev", "test", "external"]},
+    "repo_id": {"type": "string", "minLength": 1},
+    "base_commit": {"type": "string", "minLength": 1},
+    "step_index": {"type": "integer", "minimum": 0},
+    "model_id": {"type": "string", "minLength": 1},
+    "model_revision": {"type": "string", "minLength": 1},
+    "adapter_id": {"type": ["string", "null"]},
+    "prompt_version": {"type": "string", "minLength": 1},
+    "harness_version": {"type": "string", "minLength": 1},
+    "experiment_config_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "state_hash_before": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "intent": {"type": "string"},
+    "action": {"type": "object"},
+    "normalized_action_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "tool_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ok", "error_code", "observation_hash"],
+      "properties": {
+        "ok": {"type": "boolean"},
+        "error_code": {"type": ["string", "null"]},
+        "observation_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+      }
+    },
+    "state_hash_after": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "diff_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "test_state": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["status", "fail_to_pass_count", "pass_to_pass_failures"],
+      "properties": {
+        "status": {"enum": ["passed", "failed", "error", "timeout"]},
+        "fail_to_pass_count": {"type": ["integer", "null"], "minimum": 0},
+        "pass_to_pass_failures": {"type": ["integer", "null"], "minimum": 0}
+      }
+    },
+    "input_tokens": {"type": "integer", "minimum": 0},
+    "output_tokens": {"type": "integer", "minimum": 0},
+    "latency_ms": {"type": "integer", "minimum": 0},
+    "tool_latency_ms": {"type": "integer", "minimum": 0},
+    "retry_count": {"type": "integer", "minimum": 0},
+    "automatic_labels": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "harness_policy_variant": {"type": "string", "minLength": 1},
+    "harness_allowed_tools": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "harness_context_strategy": {"type": "string", "minLength": 1},
+    "harness_verification_required": {"type": "boolean"},
+    "harness_recovery_required": {"type": "boolean"}
+  }
+}

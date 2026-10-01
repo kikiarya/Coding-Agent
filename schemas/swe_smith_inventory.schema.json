@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coding-agent-policy.local/schemas/swe_smith_inventory.schema.json",
+  "title": "SweSmithInventoryEntry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "task_id", "split", "source_repo_key", "repo_profile",
+    "image_name", "problem_statement", "issue_hash", "patch_hash",
+    "fail_to_pass_count", "pass_to_pass_count", "dataset_revision"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0.0"},
+    "task_id": {"type": "string", "minLength": 1},
+    "split": {"enum": ["smoke", "train", "dev", "test", "external"]},
+    "source_repo_key": {"type": "string", "minLength": 1},
+    "repo_profile": {"type": "string", "minLength": 1},
+    "image_name": {"type": "string", "minLength": 1},
+    "problem_statement": {"type": "string", "minLength": 1},
+    "issue_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "patch_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "fail_to_pass_count": {"type": "integer", "minimum": 1},
+    "pass_to_pass_count": {"type": "integer", "minimum": 0},
+    "dataset_revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+  }
+}

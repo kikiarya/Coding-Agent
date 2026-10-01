@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coding-agent-policy.local/schemas/external_candidate.schema.json",
+  "title": "ExternalTaskCandidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "instance_id", "repo_id", "base_commit",
+    "docker_image_digest", "issue_hash", "environment_profile", "initialized",
+    "stable_repeats", "initial_test_status", "exclusion_reason"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0.0"},
+    "instance_id": {"type": "string", "minLength": 1},
+    "repo_id": {"type": "string", "minLength": 1},
+    "base_commit": {"type": "string", "minLength": 1},
+    "docker_image_digest": {"type": ["string", "null"]},
+    "issue_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "environment_profile": {"type": "string", "minLength": 1},
+    "initialized": {"type": "boolean"},
+    "stable_repeats": {"type": "integer", "minimum": 0},
+    "initial_test_status": {"type": ["string", "null"]},
+    "exclusion_reason": {"type": ["string", "null"]}
+  }
+}

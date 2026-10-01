@@ -1,0 +1,40 @@
+schema_version: "2.0.0"
+profile: mvp_qlora_v1
+experiment_id: e2_policy_sft
+status: configured
+model:
+  model_id: Qwen/Qwen2.5-Coder-7B-Instruct
+  model_revision: c03e6d358207e414f1eca0bb1891e29f1db0e242
+  tokenizer_id: Qwen/Qwen2.5-Coder-7B-Instruct
+  tokenizer_revision: c03e6d358207e414f1eca0bb1891e29f1db0e242
+  trust_remote_code: false
+data:
+  dataset: D_policy
+  path: artifacts/datasets/D_policy_600.jsonl
+  manifest: artifacts/manifests/mvp_160.jsonl
+  expected_samples: 600
+  allowed_split: train
+  min_review_fraction: 0.0
+  replay_ledger: artifacts/datasets/D_policy_corrected_replay.jsonl
+  release_manifest: artifacts/datasets/D_policy_600.release.json
+training:
+  quantization: nf4
+  load_in_4bit: true
+  compute_dtype: bfloat16
+  double_quantization: true
+  lora_rank: 32
+  lora_alpha: 64
+  lora_dropout: 0.05
+  target_modules: all-linear
+  max_sequence_length: 4096
+  per_device_batch_size: 1
+  gradient_accumulation_steps: 16
+  learning_rate: 0.0002
+  scheduler: cosine
+  warmup_ratio: 0.03
+  epochs: 2
+  gradient_checkpointing: true
+  optimizer: paged_adamw_8bit
+  seed: 42
+  save_strategy: epoch
+output_dir: artifacts/checkpoints/e2_policy_sft

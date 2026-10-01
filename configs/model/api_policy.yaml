@@ -1,0 +1,14 @@
+schema_version: "2.0.0"
+profile: api_policy_v1
+transport: openai_chat_completions
+endpoint:
+  base_url_env: CAPO_API_BASE_URL
+  api_key_env: CAPO_API_KEY
+  model_id_env: CAPO_API_MODEL
+  timeout_seconds: 120
+context:
+  max_context_tokens: 16384
+  max_decision_output_tokens: 1024
+decoding:
+  temperature: 0.0
+  top_p: 1.0

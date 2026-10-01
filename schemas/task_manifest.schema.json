@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coding-agent-policy.local/schemas/task_manifest.schema.json",
+  "title": "TaskManifestEntry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "task_id", "split", "source", "repo_id", "base_commit",
+    "docker_image_digest", "issue_hash", "parent_task_id", "environment_profile",
+    "initial_test_status", "stable_repeats"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0.0"},
+    "task_id": {"type": "string", "minLength": 1},
+    "split": {"enum": ["smoke", "train", "dev", "test", "external"]},
+    "source": {"enum": ["local", "swe-smith", "swe-bench-verified"]},
+    "repo_id": {"type": "string", "minLength": 1},
+    "base_commit": {"type": "string", "minLength": 1},
+    "docker_image_digest": {"type": ["string", "null"]},
+    "issue_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "parent_task_id": {"type": ["string", "null"]},
+    "environment_profile": {"type": "string", "minLength": 1},
+    "initial_test_status": {"enum": ["passed", "failed", "error", "timeout"]},
+    "stable_repeats": {"type": "integer", "minimum": 0}
+  }
+}
+

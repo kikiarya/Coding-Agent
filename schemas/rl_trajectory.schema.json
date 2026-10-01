@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coding-agent-policy.local/schemas/rl_trajectory.schema.json",
+  "title": "RLTrajectoryAudit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "task_id", "repo_id", "finish_status", "resolved",
+    "reward_components", "total_steps", "test_calls", "patch_groups",
+    "verified_patch_groups", "duplicate_actions", "invalid_actions",
+    "recovery_opportunities", "recovered_episodes", "evaluator_test_state",
+    "trajectory_records"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0.0"},
+    "task_id": {"type": "string", "minLength": 1},
+    "repo_id": {"type": "string", "minLength": 1},
+    "finish_status": {"type": ["string", "null"]},
+    "resolved": {"type": "boolean"},
+    "reward_components": {"type": "object"},
+    "total_steps": {"type": "integer", "minimum": 0},
+    "test_calls": {"type": "integer", "minimum": 0},
+    "patch_groups": {"type": "integer", "minimum": 0},
+    "verified_patch_groups": {"type": "integer", "minimum": 0},
+    "duplicate_actions": {"type": "integer", "minimum": 0},
+    "invalid_actions": {"type": "integer", "minimum": 0},
+    "recovery_opportunities": {"type": "integer", "minimum": 0},
+    "recovered_episodes": {"type": "integer", "minimum": 0},
+    "evaluator_test_state": {"type": ["object", "null"]},
+    "trajectory_records": {"type": "array"},
+    "reward_weights": {"type": "object"},
+    "harness_intervention_count": {"type": "integer", "minimum": 0},
+    "harness_policy": {"type": "object"}
+  }
+}

@@ -1,0 +1,26 @@
+schema_version: "2.0.0"
+run:
+  seed: 42
+  artifacts_dir: artifacts
+model:
+  model_id: Qwen/Qwen2.5-Coder-7B-Instruct
+  model_revision: c03e6d358207e414f1eca0bb1891e29f1db0e242
+  adapter_id: null
+  prompt_version: agent_prompt_v1
+harness:
+  harness_version: harness_v2_two_layer
+  max_tool_steps: 30
+  max_test_calls: 8
+  max_total_tokens: 65536
+  max_context_tokens: 16384
+  max_decision_output_tokens: 1024
+  tool_timeout_seconds: 600
+  task_timeout_seconds: 1800
+harness_policy:
+  variant: adaptive_v1
+  history_limit: 8
+  verification_mode: required
+  recovery_mode: required
+repository:
+  test_command: ["swesmith-profile"]
+  default_test_args: []
